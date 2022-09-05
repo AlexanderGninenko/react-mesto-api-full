@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 const express = require('express');
 const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
@@ -10,7 +9,7 @@ const routes = require('./routes');
 const errorUniHandler = require('./middlewares/errorHandler');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
-const { PORT = 5000 } = process.env;
+const { PORT = 4010 } = process.env;
 
 mongoose.connect('mongodb://localhost:27017/mestodb', {
   useNewUrlParser: true,
@@ -18,21 +17,7 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 
 const app = express();
 
-const options = {
-  origin: [
-    'https://alexandergninenko.nomoredomains.sbs',
-    'https://api.alexandergninenko.nomoredomains.sbs',
-    'http://localhost:3000',
-    'http://localhost:5000',
-  ],
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  preflightContinue: false,
-  optionsSuccessStatus: 204,
-  allowedHeaders: ['Content-Type', 'origin', 'Authorization'],
-  credentials: true,
-};
-
-app.use('*', cors(options));
+app.use('*', cors(corsOptions));
 
 app.use(cookieParser());
 app.use(express.json());
@@ -47,4 +32,4 @@ app.use(errors());
 
 app.use(errorUniHandler);
 
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
+app.listen(PORT);

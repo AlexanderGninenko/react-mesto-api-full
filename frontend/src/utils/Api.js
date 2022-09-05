@@ -99,6 +99,7 @@ class Api {
 
  export const api = new Api({
     url: "https://api.alexandergninenko.nomoredomains.sbs",
+    // url: "http://localhost:3010",
     credentials: 'include',
     headers: {
       "Content-Type": "application/json",

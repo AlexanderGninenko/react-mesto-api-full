@@ -135,6 +135,7 @@ function App() {
     api
       .addUserCard(data)
       .then((newCard) => {
+        console.log(newCard);
         setCards([newCard, ...cards]);
         closeAllPopups();
         setIsRenderLoading(false);
@@ -192,17 +193,16 @@ function App() {
   };
 
   const handleSignOut = () => {
-    setLoggedIn(false);
-
-    localStorage.removeItem("jwt");
-    history.push("/sign-in");
+    auth.signOut()
+    .then(()=> {
+      setLoggedIn(false);
+      history.push("/sign-in");
+    })
   };
 
   const tokenCheck = () => {
-    const token = localStorage.getItem("jwt");
-    if (token) {
       auth
-        .getContent(token)
+        .getContent()
         .then((res) => {
           if (res) {
             setLoggedIn(true);
@@ -211,7 +211,6 @@ function App() {
           }
         })
         .catch((err) => console.log(err));
-    }
   };
 
   const closeAllPopups = () => {
